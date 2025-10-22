@@ -1,5 +1,4 @@
-from idlelib.sidebar import temp_enable_text_widget
-from operator import truediv
+
 
 
 class Stack:
@@ -29,13 +28,17 @@ class Stack:
     def size(self):
         return len(self.items)
 
-    def contains(self, thing_maybe_in_stack):
-        items_copy = self.items
+    def contains(self, value):
+        temp = Stack()
+        result = False
+        for i in range(self.size()):
 
-        for i in range(len(items_copy)):
-            thing_in_stack_checker = items_copy.pop()
+            b = self.pop()
+            temp.push(b)
 
-            if thing_maybe_in_stack == thing_in_stack_checker:
-                return True
-
-        return False
+            if value == b:
+                result = True
+                break
+        for i in range(temp.size()):
+            self.push(temp.pop())
+        return result
