@@ -27,14 +27,16 @@ class Queue:
             if temp == input:
                 x = True
         return x
-    
+
     def __str__(self):
-        our_str = ""
+        elements = []
         for i in range(self.size()):
-            temp3 = self.dequeue()
-            self.enqueue(temp3)
-            our_str = our_str + temp3
-        return our_str
+            temp = self.dequeue()
+            self.enqueue(temp)
+            elements.append(str(temp))
+        return ''.join(elements)
+
+
 
     def __add__(self, other):
         new_queue = Queue()
