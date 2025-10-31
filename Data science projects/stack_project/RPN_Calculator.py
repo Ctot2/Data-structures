@@ -1,5 +1,3 @@
-
-
 def calculator_game_loop(my_stack):
     while True:
         x = input("enter a int, +, -, *, /, or exit: ")
