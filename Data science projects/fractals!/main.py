@@ -1,5 +1,6 @@
 from graphics import *
 win = GraphWin("My Fractal", 1000, 800)
+win.setBackground(color = "white")
 
 # Close window when done
 
@@ -12,17 +13,16 @@ def find_point(p1, distance, angle):
    ycor = sin(rad_angle) * distance + p1.getY()
    return Point(xcor, ycor)
 
-def fractal_spiral(d, dist, x1, y1, x2, y2):
+def fractal_spiral(d, dist, ang, x1, y1):
     if d == 0:
         return
     else:
-        Line(Point(x1, y1), Point(x2, y2)).draw(win)
-        found_point = find_point(p1=Point(x2, y2), distance=dist, angle=2)
-        x3 = found_point.getX()
-        y3 = found_point.getY()
-        fractal_spiral(d-1, dist/2, x2, y2, x3, y3)
+        found_point = find_point(p1=Point(x1, y1), distance=dist, angle=ang)
+        Line(Point(x1, y1), Point(found_point.getX(), found_point.getY())).draw(win)
+        fractal_spiral(d-1, dist*0.75, ang-90, found_point.getX(), found_point.getY())
+        fractal_spiral(d - 1, dist/1.5, ang +20, found_point.getX(), found_point.getY())
 
 
-fractal_spiral(7, 100, 500, 800, 500, 700)
+fractal_spiral(15, 200, 90, 500,800)
 win.getMouse() # Pause to view result
 win.close()
