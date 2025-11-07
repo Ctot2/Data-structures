@@ -11,7 +11,10 @@ class Queue:
 
 
     def empty(self):
-        return True if self.items else False
+        if len(self.items) == 0:
+            return True
+        else:
+            return False
 
     def look(self):
         return self.items[0]
