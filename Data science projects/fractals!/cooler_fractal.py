@@ -12,9 +12,6 @@ def find_point(p1, distance, angle):
    return Point(xcor, ycor)
 
 
-
-
-
 from Queues import *
 def fractal():
     q = Queue()
