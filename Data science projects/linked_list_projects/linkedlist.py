@@ -100,22 +100,49 @@ class LinkedList:
     def insert(self, ind, val):
         if ind == 0:
             self.insert_at_start(val)
-        elif ind == self.__len__():
+        elif ind == len(self):
             self.insert_at_end(val)
         else:
             new_node = Node(val)
             self.length += 1
             new_node.set_next(self.get_node(ind))
-            self.get_node(ind).set_next(new_node)
+            self.get_node(ind-1).set_next(new_node)
 
     def delete_at_end(self):
         if self.empty():
             return
-        self.length -= 1
         if self.tail == self.head:
             self.head = None
             self.tail = None
+            self.length -= 1
         else:
             temp = self.get_node(len(self) - 2)
             temp.set_next(None)
             self.tail = temp
+            self.length -= 1
+
+    def delete(self, ind):
+        if ind == 0:
+            self.delete_at_start()
+        elif ind == len(self) - 1:
+            self.delete_at_end()
+        elif ind >= len(self) or ind < 0:
+            raise IndexError
+        else:
+            temp = self.get_node(ind-1)
+            temp2 = self.get_node(ind +1)
+            temp3 = self.get_node(ind)
+            temp3.set_next(None)
+            temp.set_next(temp2)
+            self.length -= 1
+
+    def __contains__(self, item):
+        temp = self.head
+        if temp.get_value() == item:
+            return True
+        else:
+            for i in range(len(self)-1):
+                temp = temp.get_next()
+                if temp.get_value() == item:
+                    return True
+        return False

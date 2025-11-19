@@ -78,26 +78,38 @@ print("put is " + put)
 assert put == "put"
 print("__getitem__() works as intended.")
 b = LinkedList()
+print(b)
 b.insert(0, "m")
+print(b)
 b.insert(0, "o")
+print(b)
 b.insert(2, "u")
+print(b)
 b.insert(3, "r")
+print(b)
 b.insert(0, "c")
+print(b)
 b.insert(4, "e")
+print(b)
 b.insert(3, "p")
+print(b)
 b.insert(5, "t")
+print(b)
 assert not b.empty()
 assert len(b) == 8
-
+print(b)
 computer = ""
+print(b)
 for i in range(8):
     computer += b[i]
 print("computer is " + computer)
-
+print(b)
 print("insert() works as intended.")
 b.insert(8, "s")
+print(b)
 b.delete_at_end()
 computer = ""
+print(b)
 for i in range(8):
     computer += b[i]
 assert computer == "computer"
@@ -111,3 +123,28 @@ assert a.head == None
 assert a.tail == None
 
 print("delete_at_end() works as intended.")
+b.delete(6)
+print(b)
+b.delete(6)
+print(b)
+b.delete(0)
+print(b)
+b.delete(1)
+print(b)
+b.delete(1)
+print(b)
+assert len(b) == 3
+
+out = ""
+for i in range(3):
+    out += b[i]
+print("out is " + out)
+assert out == "out"
+print("delete() works as intended.")
+print(b)
+assert "t" in b
+assert "t" in b
+assert "o" in b
+assert "u" in b
+assert "c" not in b
+print("__contains__() works as intended.")
