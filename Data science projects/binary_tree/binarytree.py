@@ -54,4 +54,12 @@ class BinaryTree:
         return "Tree: " + str(self.get_root())
 
     def play_game(self):
-        print(self.root)
+        print(self.root.get_value())
+        temp2 = yes_or_no()
+        temp = self.get_root()
+        while temp.is_leaf() == False:
+            print(temp.get_value())
+            if temp2 == True:
+                temp = temp.get_left()
+            elif temp2 ==  False:
+                temp = temp.get_right()
