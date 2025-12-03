@@ -1,4 +1,3 @@
-from TwentyQuestions import *
 from binarytree import *
 n1 = Node("does it have 4 legs? ")
 n1.set_left(Node("does it have pointy ears? "))

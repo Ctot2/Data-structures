@@ -53,13 +53,52 @@ class BinaryTree:
     def __str__(self):
         return "Tree: " + str(self.get_root())
 
+    def yes_or_no():
+        a = input("input here: ")
+        if a == "yes":
+            return True
+        elif a == "no":
+            return False
+        else:
+            print("enter yes or no")
+            return yes_or_no()
+
     def play_game(self):
-        print(self.root.get_value())
-        temp2 = yes_or_no()
         temp = self.get_root()
-        while temp.is_leaf() == False:
-            print(temp.get_value())
+        print(temp.get_value())
+        while temp.is_leaf() is False:
+            temp2 = yes_or_no()
             if temp2 == True:
                 temp = temp.get_left()
+                print(temp.get_value())
             elif temp2 ==  False:
                 temp = temp.get_right()
+                print(temp.get_value())
+        print(temp)
+        self.adaptive(temp = temp)
+
+    def adaptive(self, temp):
+        print(temp)
+        print("was this guess correct?")
+        if  yes_or_no() == True:
+            print("play again?")
+            if yes_or_no() == True:
+                self.play_game()
+            else:
+                print(self)
+                exit()
+        else:
+            other_answer = temp
+            print(other_answer)
+            player_guess = input("what were you thinking of?")
+            player_question = input("what question could i have asked to figure it out?")
+            print("would you have answered yes or no to that question?")
+            player_answer = yes_or_no()
+            temp.set_value(player_question)
+            if player_answer == True:
+                temp.set_left(Node(player_guess))
+                temp.set_right(Node(other_answer))
+            else:
+                temp.set_right(Node(player_guess))
+                temp.set_left(Node(other_answer))
+        self.play_game()
