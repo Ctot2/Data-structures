@@ -56,17 +56,25 @@ class Graph:
     def shortest_path(self, s1_name, s2_name):
         s1_node = self.find_node(s1_name)
         s2_node = self.find_node(s2_name)
+
         visited = []
         to_visit = Queue()
-        Queue.enqueue(to_visit, s1_node)
+        to_visit.enqueue([s1_node])
         visited.append(s1_node)
-        while Queue.size(to_visit) != 0:
-            temp = Queue.dequeue(to_visit)
-            print("visiting ", temp)
-            temp_edges = temp.get_edges()
-            for i in temp_edges:
-                Queue.enqueue(to_visit, i)
-                visited.append(i)
-            if temp == s2_node:
-                print("you've arrived at", s2_node)
-                break
+
+        while to_visit.size() != 0:
+            temp = to_visit.dequeue()
+            current_system = temp[-1]
+            current_system_edges = current_system.get_edges()
+            if current_system == s2_node:
+                return [node.get_value() for node in temp]
+            for i in current_system_edges:
+                if i not in visited:
+                    new_path = temp + [i]
+                    to_visit.enqueue(new_path)
+                    visited.append(i)
+
+        return "No path found- hyperlink between these galaxies does not exist."
+
+    def shortest_path_length(self, s1_name, s2_name):
+        return (len(self.shortest_path(s1_name, s2_name)) -1)
