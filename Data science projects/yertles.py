@@ -8,8 +8,8 @@ yertle.shape("turtle")
 
 from turtle import Screen, Turtle
 
-COLOR = (1, 0, 0)  # (154, 0, 254)
-TARGET = (0, 0, 0)  # (221, 122, 80)
+COLOR = (0, 0, 0.8)  # (154, 0, 254)
+TARGET = (1, 1, 1)  # (221, 122, 80)
 
 
 
