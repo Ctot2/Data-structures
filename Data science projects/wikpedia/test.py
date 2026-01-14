@@ -2,6 +2,7 @@ import wikipediaapi
 from pyvis.network import Network
 from graph import *
 import time
+import random
 
 wiki_wiki = wikipediaapi.Wikipedia(user_agent='Wikipedia_Graph (williamso27@gfacademy.org)', language='en')
 
@@ -29,14 +30,15 @@ def wiki_graph(start, repetitions):
             existing_node = next((node for node in wikipedia.get_nodes() if node.get_value() == link), None)
             if existing_node:
                 wikipedia.add_edge(existing_node, main_node)
-            else:
-                new_node = Node(link)
-                wikipedia.add_node(new_node)
-                wikipedia.add_edge(new_node, main_node)
+            #else:
+                #new_node = Node(link)
+                #wikipedia.add_node(new_node)
+                #wikipedia.add_edge(new_node, main_node)
 
         # Find the next unvisited page
         next_start = None
-        for link in link_list:
+        while True:
+            link = random.choice(link_list)
             if link not in visited:
                 next_start = link
                 break
@@ -45,6 +47,7 @@ def wiki_graph(start, repetitions):
             print("No unvisited links found. Stopping.")
             break
 
+        last_node = main_node
         # Update the starting page and main node for the next iteration
         start = next_start
         visited.add(start)  # Mark the new page as visited
@@ -52,6 +55,7 @@ def wiki_graph(start, repetitions):
         if not main_node:  # If the new starting node doesn't exist, create it
             main_node = Node(start)
             wikipedia.add_node(main_node)
+        wikipedia.add_edge(last_node, main_node)
 
         length += len(link_list)
 
@@ -62,4 +66,4 @@ def wiki_graph(start, repetitions):
 
 
 page = input("Choose your starting article: ")
-wiki_graph(start=page, repetitions=10)
+wiki_graph(start=page, repetitions=0)
