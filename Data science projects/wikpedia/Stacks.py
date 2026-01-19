@@ -5,7 +5,7 @@ class Stack:
 
     def push(self, input_value):
         self.items.append(input_value)
-        print(self.items)
+        #print(self.items)
 
     def pop(self):
         n = len(self.items)

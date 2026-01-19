@@ -3,8 +3,10 @@ from pyvis.network import Network
 from graph import *
 import time
 import random
+from Stacks import *
 
 wiki_wiki = wikipediaapi.Wikipedia(user_agent='Wikipedia_Graph (williamso27@gfacademy.org)', language='en')
+
 
 def wiki_graph(start, repetitions):
     wikipedia = Graph()
@@ -14,26 +16,51 @@ def wiki_graph(start, repetitions):
     visited = set()  # Keep track of visited pages
     visited.add(start)  # Mark the starting page as visited
     time.sleep(0.005)  # Rate limiting
+    history = Stack()
 
     for i in range(repetitions):
         print(f"Repetition {i + 1}/{repetitions}: Fetching links for '{start}'")
-        page_py = wiki_wiki.page(start)
-        time.sleep(0.005)  # Rate limiting
-        link_list = list(page_py.links.keys())
 
-        if not link_list:  # Handle empty link_list
-            print(f"No links found for page: {start}")
-            break
+        # Rate-limiting: Ensure at least 5ms delay between requests
+        time.sleep(0.01)
+
+        try:
+            page_py = wiki_wiki.page(start)
+        except Exception as e:
+            print(f"Error fetching page '{start}': {e}")
+            if history.empty():
+                print("No more pages to backtrack to. Stopping.")
+                break
+            start = history.pop()
+            continue
+
+        try:
+            link_list = list(page_py.links.keys())
+        except Exception as e:
+            print(f"Error fetching links for page '{start}': {e}")
+            visited.add(start)
+            if history.empty():
+                print("No more pages to backtrack to. Stopping.")
+                break
+            start = history.pop()
+            continue
+
+        history.push(start)
 
         for link in link_list:
             # Check if the node already exists
             existing_node = next((node for node in wikipedia.get_nodes() if node.get_value() == link), None)
             if existing_node:
                 wikipedia.add_edge(existing_node, main_node)
-            #else:
-                #new_node = Node(link)
-                #wikipedia.add_node(new_node)
-                #wikipedia.add_edge(new_node, main_node)
+
+        if not link_list:  # Handle empty link_list
+            print(f"No links found for page: {start}")
+            visited.add(start)
+            if history.empty():
+                print("No more pages to backtrack to. Stopping.")
+                break
+            start = history.pop()
+            continue
 
         # Find the next unvisited page
         next_start = None
@@ -62,8 +89,10 @@ def wiki_graph(start, repetitions):
     # Print statistics
     print("this is", 100 * length / 7116000, "% of wikipedia")
     print(f"Total links processed: {length}")
+    print(history.size())
+    print(len(wikipedia.get_nodes()))
     wikipedia.show_graph()
 
 
 page = input("Choose your starting article: ")
-wiki_graph(start=page, repetitions=0)
+wiki_graph(start=page, repetitions=500)
